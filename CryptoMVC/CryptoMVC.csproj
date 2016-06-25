@@ -210,6 +210,10 @@
     <Compile Include="Migrations\201606250359361_Init.Designer.cs">
       <DependentUpon>201606250359361_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606250934146_SetNullrableForExamAssignmentDocument.cs" />
+    <Compile Include="Migrations\201606250934146_SetNullrableForExamAssignmentDocument.Designer.cs">
+      <DependentUpon>201606250934146_SetNullrableForExamAssignmentDocument.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseDocument.cs" />
@@ -403,6 +407,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201606250359361_Init.resx">
       <DependentUpon>201606250359361_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606250934146_SetNullrableForExamAssignmentDocument.resx">
+      <DependentUpon>201606250934146_SetNullrableForExamAssignmentDocument.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

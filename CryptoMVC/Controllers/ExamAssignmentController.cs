@@ -13,24 +13,26 @@ namespace CryptoMVC.Controllers
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
         public ActionResult Index()
         {
-            //var viewModel = new ExamAssignmentViewModel();
-            //var studentId = User.Identity.GetUserId();
-            //viewModel.Exams = _context.ExamAssignments
-            //    .Where(ea => ea.StudentId == studentId)
-            //    .Include(ea=>ea.Document)
-            //    .Select(ea=> new ExamViewModel
-            //    {
-            //        Id = ea.Id,
-            //        Name = ea.Document.Name,
-            //        Type = ea.Document.DocumentType
-            //    })
-            //    .ToList();
-            //foreach (var exam in viewModel.Exams)
-            //{
-            //    exam.Name = Path.GetFileNameWithoutExtension(exam.Name);
-            //}
-            //return View(viewModel);
-            return Content("Hello");
+            var viewModel = new ExamAssignmentViewModel();
+            var studentId = User.Identity.GetUserId();
+            viewModel.Exams = _context.ExamAssignments
+                .Where(ea => ea.ApplicationUserId == studentId)
+                .Include(ea => ea.Exam)
+                .Include(ea=>ea.Exam.ApplicationUser)
+                .Select(ea => new ExamViewModel
+                {
+                    Id = ea.Id,
+                    Name = ea.Exam.Name,
+                    Type = ea.Exam.DocumentType,
+                    Teacher = ea.Exam.ApplicationUser.UserName,
+                    Deadline = ea.Exam.EndTime
+                })
+                .ToList();
+            foreach (var exam in viewModel.Exams)
+            {
+                exam.Name = Path.GetFileNameWithoutExtension(exam.Name);
+            }
+            return View(viewModel);
         }
     }
 }

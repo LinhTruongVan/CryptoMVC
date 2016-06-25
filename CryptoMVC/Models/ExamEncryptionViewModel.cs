@@ -26,6 +26,8 @@ namespace CryptoMVC.Models
         [DisplayName("Cipher Text")]
         [DefaultValue("")]
         public string CipherText { get; set; }
+        [DefaultValue(null)]
+        public string DateTimeErrorMessage { get; set; }
 
         public List<SelectListItem> ExamTypes(IPrincipal userPrincipal)
         {

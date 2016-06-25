@@ -11,9 +11,9 @@
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Name</th>
                     <th>Type</th>
+                    <th>Deadline</th>
                     <th>...</th>
                 </tr>
                 </thead>
@@ -21,9 +21,9 @@
                     @foreach (var exam in Model.Exams)
                     {
                         <tr>
-                            <td>@exam.Id</td>
                             <td>@exam.Name</td>
                             <td>@exam.Type.ToString()</td>
+                            <td>@exam.Deadline</td>
                             <td>Start</td>
                         </tr>
                     }
