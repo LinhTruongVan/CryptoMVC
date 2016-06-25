@@ -9,5 +9,6 @@
         public virtual Exam Exam { get; set; }
         public int? DocumentId { get; set; }
         public Document Document { get; set; }
+        public bool Finished { get; set; }
     }
 }

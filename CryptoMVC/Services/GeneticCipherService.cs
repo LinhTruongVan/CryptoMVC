@@ -321,7 +321,7 @@ namespace CryptoMVC.Services
         {
             try
             {
-                byte[] plainStream = Encrypt(UTF8Encoding.UTF8.GetBytes(cipher), password);
+                byte[] plainStream = Decrypt(UTF8Encoding.UTF8.GetBytes(cipher), password);
                 return UTF8Encoding.UTF8.GetString(plainStream);
             }
             catch

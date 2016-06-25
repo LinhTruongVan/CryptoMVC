@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -14,6 +13,7 @@ namespace CryptoMVC.Controllers
     {
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
         private readonly GeneticCipherService _geneticCipherService = new GeneticCipherService();
+        private readonly CryptoHelper _cryptoHelper = new CryptoHelper();
         public ActionResult Index()
         {
             return View(new ExamEncryptionViewModel());
@@ -37,7 +37,7 @@ namespace CryptoMVC.Controllers
             {
                 ApplicationUserId = User.Identity.GetUserId(),
                 Name = viewModel.File.FileName,
-                Key = _geneticCipherService.EncryptString(viewModel.Key, ConfigurationManager.AppSettings["DefaultKey"]),
+                Key = _cryptoHelper.Encrypt(viewModel.Key),
                 DocumentType = viewModel.SelectedExamType,
                 UploadedDate = DateTime.Now,
                 StartTime = viewModel.StartTime,
@@ -67,7 +67,8 @@ namespace CryptoMVC.Controllers
                     {
                         ApplicationUserId = userId,
                         ExamId = exam.Id,
-                        DocumentId = null
+                        DocumentId = null,
+                        Finished = false
                     });
                 }
                 _context.SaveChanges();

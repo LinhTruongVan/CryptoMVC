@@ -24,7 +24,7 @@
                             <td>@exam.Name</td>
                             <td>@exam.Type.ToString()</td>
                             <td>@exam.Deadline</td>
-                            <td>Start</td>
+                            <td>@Html.ActionLink("Start", "Detail", "ExamAssignment", new { id = @exam.Id }, null)</td>
                         </tr>
                     }
                 </tbody>

@@ -214,6 +214,10 @@
     <Compile Include="Migrations\201606250934146_SetNullrableForExamAssignmentDocument.Designer.cs">
       <DependentUpon>201606250934146_SetNullrableForExamAssignmentDocument.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201606251411582_AddFinishedForExamAssginment.cs" />
+    <Compile Include="Migrations\201606251411582_AddFinishedForExamAssginment.Designer.cs">
+      <DependentUpon>201606251411582_AddFinishedForExamAssginment.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BaseDocument.cs" />
@@ -225,6 +229,7 @@
     <Compile Include="Models\EncryptionViewModel.cs" />
     <Compile Include="Models\Exam.cs" />
     <Compile Include="Models\ExamAssignment.cs" />
+    <Compile Include="Models\ExamAssignmentDetailViewModel.cs" />
     <Compile Include="Models\ExamAssignmentViewModel.cs" />
     <Compile Include="Models\ExamEncryptionViewModel.cs" />
     <Compile Include="Models\ExamViewModel.cs" />
@@ -234,6 +239,7 @@
     <Compile Include="Models\UserManagementViewModel.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CryptoHelper.cs" />
     <Compile Include="Services\DocumentTypeService.cs" />
     <Compile Include="Services\GeneticCipherService.cs" />
     <Compile Include="Startup.cs" />
@@ -393,6 +399,7 @@
     <Content Include="Views\UserManagement\Index.cshtml" />
     <Content Include="Views\ExamAssignment\Index.cshtml" />
     <Content Include="Views\Exam\Index.cshtml" />
+    <Content Include="Views\ExamAssignment\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -410,6 +417,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201606250934146_SetNullrableForExamAssignmentDocument.resx">
       <DependentUpon>201606250934146_SetNullrableForExamAssignmentDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201606251411582_AddFinishedForExamAssginment.resx">
+      <DependentUpon>201606251411582_AddFinishedForExamAssginment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

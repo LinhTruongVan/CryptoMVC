@@ -13,6 +13,7 @@ namespace CryptoMVC.Controllers
     {
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
         private readonly GeneticCipherService _geneticCipherService = new GeneticCipherService();
+        private readonly CryptoHelper _cryptoHelper = new CryptoHelper();
         public ActionResult Index()
         {
             return View("Index", new EncryptionViewModel());
@@ -30,7 +31,7 @@ namespace CryptoMVC.Controllers
             {
                 ApplicationUserId = User.Identity.GetUserId(),
                 Name = viewModel.File.FileName,
-                Key = _geneticCipherService.EncryptString(viewModel.Key, ConfigurationManager.AppSettings["DefaultKey"]),
+                Key = _cryptoHelper.Encrypt(viewModel.Key),
                 DocumentType = viewModel.SelectedDocumentType,
                 UploadedDate = DateTime.Now
             };

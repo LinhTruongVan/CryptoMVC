@@ -1,0 +1,30 @@
+﻿@using CryptoMVC.Models
+@model ExamAssignmentDetailViewModel
+@{
+    ViewBag.Title = "Deadline: " + Model.Deadline;
+}
+
+<h2>@ViewBag.Title.</h2>
+<div class="row">
+    <div class="col-md-12">
+        <section id="answerForm">
+            @using (Html.BeginForm("Submit", "ExamAssignment", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+            {
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m=>m.ExamAssignmentId)
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @Html.TextAreaFor(m=>m.Content, new { @class = "form-control max-width-100", rows = "18" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Submit" class="btn btn-primary" style="float:right" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
