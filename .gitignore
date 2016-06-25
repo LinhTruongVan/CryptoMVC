@@ -1,0 +1,8 @@
+.vs
+packages
+
+CryptoMVC/bin
+CryptoMVC/obj
+
+CryptoMVC/Documents
+CryptoMVC/Exams
