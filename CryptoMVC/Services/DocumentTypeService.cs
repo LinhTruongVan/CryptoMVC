@@ -74,6 +74,17 @@ namespace CryptoMVC.Services
             }
         };
 
+        public static List<SelectListItem> GetExamTypesForAdminAndTeacher()
+        {
+            return new List<SelectListItem>
+            {
+                DocumentTypes[DocumentType.GradeSixExam],
+                DocumentTypes[DocumentType.GradeSevenExam],
+                DocumentTypes[DocumentType.GradeEightExam],
+                DocumentTypes[DocumentType.GradeNineExam]
+            };
+        }
+
         public static List<SelectListItem> GetDocumentTypesForAdmin()
         {
             return new List<SelectListItem>

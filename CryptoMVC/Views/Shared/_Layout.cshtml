@@ -24,6 +24,10 @@
                     <li>@Html.ActionLink("Encryption", "Index", "Encryption")</li>
                     <li>@Html.ActionLink("Decryption", "Index", "Decryption")</li>
                     <li>@Html.ActionLink("Documents", "Index", "Download")</li>
+                    @if (User != null && (User.IsInRole("Admin") || User.IsInRole("Teacher")))
+                    {
+                        <li>@Html.ActionLink("Exams", "Index", "Exam")</li>
+                    }
                     @if (User != null && User.IsInRole("Admin"))
                     {
                         <li>@Html.ActionLink("User Management", "Index", "UserManagement")</li>
@@ -46,7 +50,17 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+
+<script type="text/javascript">
+    $('.datetimepicker').datetimepicker({
+        defaultDate: new Date(),
+        minDate: new Date(2016,1,1),
+        sideBySide: true
+    });
+</script>
+
+@RenderSection("scripts", required: false)
 </body>
 </html>

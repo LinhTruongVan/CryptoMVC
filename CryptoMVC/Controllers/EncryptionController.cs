@@ -15,7 +15,7 @@ namespace CryptoMVC.Controllers
         private readonly GeneticCipherService _geneticCipherService = new GeneticCipherService();
         public ActionResult Index()
         {
-            return View("Index", new EncryptionViewModel { CipherText = "" });
+            return View("Index", new EncryptionViewModel());
         }
 
         [HttpPost]

@@ -17,6 +17,7 @@ namespace CryptoMVC.Models
         [DisplayName("Type")]
         public DocumentType SelectedDocumentType { get; set; }
         [DisplayName("Cipher Text")]
+        [DefaultValue("")]
         public string CipherText { get; set; }
 
         public List<SelectListItem> DocumentTypes(IPrincipal userPrincipal)
