@@ -400,6 +400,7 @@
     <Content Include="Views\ExamAssignment\Index.cshtml" />
     <Content Include="Views\Exam\Index.cshtml" />
     <Content Include="Views\ExamAssignment\Detail.cshtml" />
+    <Content Include="Views\Exam\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

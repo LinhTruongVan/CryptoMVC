@@ -1,79 +1,52 @@
 ﻿@using CryptoMVC.Models
-@model ExamEncryptionViewModel
+@model IEnumerable<Exam>
 @{
-    ViewBag.Title = "Upload Exam";
+    ViewBag.Title = "Exams";
 }
 
 <h2>@ViewBag.Title.</h2>
+@Html.ActionLink("Go To Upload Exam", "Upload")
 <div class="row">
     <div class="col-md-8">
-        <section id="examData">
-            @using (Html.BeginForm("Encrypt", "Exam", new {ReturnUrl = ViewBag.ReturnUrl}, FormMethod.Post, new {@class = "form-horizontal", role = "form", enctype = "multipart/form-data"}))
-            {
-                @Html.AntiForgeryToken()
-                <hr/>
-                @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-                <div class="form-group">
-                    @Html.LabelFor(m => m.File, new {@class = "col-md-2 control-label"})
-                    <div class="col-md-10">
-                        <input type="file" class="form-control max-width-100" name="File" placeholder="Select file..">
-                        @Html.ValidationMessageFor(m => m.File, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Key, new {@class = "col-md-2 control-label"})
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Key, new {@class = "form-control max-width-100"})
-                        @Html.ValidationMessageFor(m => m.Key, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.SelectedExamType, new {@class = "col-md-2 control-label"})
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(m => m.SelectedExamType, Model.ExamTypes(User), new {@class = "form-control max-width-100"})
-                        @Html.ValidationMessageFor(m => m.SelectedExamType, "", new {@class = "text-danger"})
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.StartTime, new {@class = "col-md-2 control-label"})
-                    <div class="col-md-10">
-                        <div class="input-group date datetimepicker">
-                            @Html.TextBoxFor(m => m.StartTime, new {@class = "form-control max-width-100"})
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                        @Html.ValidationMessageFor(m => m.StartTime, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.EndTime, new {@class = "col-md-2 control-label"})
-                    <div class="col-md-10">
-                        <div class="input-group date datetimepicker">
-                            @Html.TextBoxFor(m => m.EndTime, new {@class = "form-control max-width-100"})
-                            <span class="input-group-addon">
-                                <span class="glyphicon glyphicon-calendar"></span>
-                            </span>
-                        </div>
-                        @Html.ValidationMessageFor(m => m.EndTime, "", new { @class = "text-danger" })
-                        @if (Model.DateTimeErrorMessage != null)
+        <section id="examsTable">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Author</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    @if (User != null && User.IsInRole("Admin"))
+                    {
+                        <th>...</th>
+                    }
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var exam in Model)
+                {
+                    <tr>
+                        <td>
+                            <a href="Exam/Download?filePath=@exam.Id.ToString()&fileName=@exam.Name" target="_blank">@exam.Name</a>
+                        </td>
+                        <td>@exam.DocumentType.ToString()</td>
+                        <td>@exam.ApplicationUser.UserName</td>
+                        <td>@exam.StartTime</td>
+                        <td>@exam.EndTime</td>
+                        @if (User != null && User.IsInRole("Admin"))
                         {
-                            <span class="field-validation-error text-danger">@Model.DateTimeErrorMessage</span>
+                            <td>
+                                @using (Html.BeginForm("Decrypt", "Exam", new { fileId = @exam.Id }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-primary">Decrypt</button>
+                                }
+                            </td>
                         }
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Upload" class="btn btn-primary"/>
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.CipherText, new {@class = "col-md-2 control-label"})
-                    <div class="col-md-10">
-                        @Html.TextArea("CipherText", Model.CipherText, new {@class = "form-control max-width-100", @readonly = "readonly", @rows = 8})
-                    </div>
-                </div>
-            }
+                    </tr>
+                }
+                </tbody>
+            </table>
         </section>
     </div>
 </div>

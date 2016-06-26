@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using CryptoMVC.Models;
 using CryptoMVC.Services;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity;
 
 namespace CryptoMVC.Controllers
 {
@@ -16,6 +17,12 @@ namespace CryptoMVC.Controllers
         private readonly CryptoHelper _cryptoHelper = new CryptoHelper();
         public ActionResult Index()
         {
+            var exams = _context.Exams.Include(e=>e.ApplicationUser).OrderByDescending(e=>e.UploadedDate).ToList();
+            return View(exams);
+        }
+
+        public ActionResult Upload()
+        {
             return View(new ExamEncryptionViewModel());
         }
 
@@ -24,13 +31,13 @@ namespace CryptoMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View("Index", viewModel);
+                return View("Upload", viewModel);
             }
 
             if (DateTime.Compare(viewModel.StartTime, viewModel.EndTime) > -1)
             {
                 viewModel.DateTimeErrorMessage = "Start Time must be less than End Time.";
-                return View("Index", viewModel);
+                return View("Upload", viewModel);
             }
 
             var exam = new Exam()
@@ -78,7 +85,40 @@ namespace CryptoMVC.Controllers
             viewModel.File = null;
             viewModel.Key = "";
             viewModel.DateTimeErrorMessage = null;
-            return View("Index", viewModel);
+            return View("Upload", viewModel);
+        }
+
+        [Authorize(Roles = RoleName.Admin)]
+        [HttpPost]
+        public FileResult Decrypt(int? fileId)
+        {
+            var exam = _context.Exams.FirstOrDefault(d => d.Id == fileId);
+            if (exam != null)
+            {
+                var filePath = Path.Combine(Server.MapPath("~/Exams"),
+                    exam.Id + Path.GetExtension(exam.Name));
+                if (!System.IO.File.Exists(filePath))
+                {
+                    throw new Exception("Exam not found.");
+                }
+                var fileBytes = _geneticCipherService.Decrypt(System.IO.File.ReadAllBytes(filePath),
+                    _cryptoHelper.Decrypt(exam.Key));
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, exam.Name);
+            }
+            else
+            {
+                throw new Exception("Exam not found.");
+            }
+        }
+
+        public FileResult Download(string filePath, string fileName)
+        {
+            var realFilePath = Path.Combine(Server.MapPath("~/Exams"), filePath + Path.GetExtension(fileName));
+            if (!System.IO.File.Exists(realFilePath))
+            {
+                throw new Exception("Exam not found.");
+            }
+            return File(System.IO.File.ReadAllBytes(realFilePath), System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
     }
 }
