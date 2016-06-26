@@ -24,7 +24,7 @@ namespace CryptoMVC.Controllers
             }
             else if (User.IsInRole(RoleName.Student))
             {
-                var documentTypes = new List<DocumentType> {DocumentType.General};
+                var documentTypes = new List<DocumentType> { DocumentType.General };
                 if (User.IsInRole(RoleName.GradeSixStudent))
                 {
                     documentTypes.Add(DocumentType.GradeSix);
@@ -63,7 +63,7 @@ namespace CryptoMVC.Controllers
         [HttpPost]
         public ActionResult DeleteFile(int fileId)
         {
-            var deletedDocument = _context.Documents.FirstOrDefault(d=>d.Id == fileId);
+            var deletedDocument = _context.Documents.FirstOrDefault(d => d.Id == fileId);
             if (deletedDocument != null)
             {
                 var filePath = Path.Combine(Server.MapPath("~/Documents"), deletedDocument.Id + Path.GetExtension(deletedDocument.Name));
@@ -106,8 +106,8 @@ namespace CryptoMVC.Controllers
             if (documentTypes == null)
             {
                 documents = _context.Documents
-                    .OrderBy(d => d.DocumentType)
-                    .Include(d=>d.ApplicationUser)
+                    .OrderByDescending(d => d.UploadedDate)
+                    .Include(d => d.ApplicationUser)
                     .Select(d => new DocumentViewModel
                     {
                         Id = d.Id,
@@ -122,8 +122,8 @@ namespace CryptoMVC.Controllers
             {
                 documents = _context.Documents
                     .Where(d => documentTypes.Contains(d.DocumentType))
-                    .OrderBy(d => d.DocumentType)
-                     .Include(d => d.ApplicationUser)
+                    .OrderByDescending(d => d.UploadedDate)
+                    .Include(d => d.ApplicationUser)
                     .Select(d => new DocumentViewModel
                     {
                         Id = d.Id,

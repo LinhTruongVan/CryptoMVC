@@ -22,7 +22,7 @@ namespace CryptoMVC.Controllers
             var studentId = User.Identity.GetUserId();
             var now = DateTime.Now;
             viewModel.Exams = _context.ExamAssignments
-                .Where(ea => ea.ApplicationUserId == studentId && ea.Finished == false && DateTime.Compare(ea.Exam.EndTime, now) > 0)
+                .Where(ea => ea.ApplicationUserId == studentId && ea.Finished == false && DateTime.Compare(ea.Exam.EndTime, now) > 0 && DateTime.Compare(ea.Exam.StartTime, now) < 0)
                 .Include(ea => ea.Exam)
                 .Include(ea => ea.Exam.ApplicationUser)
                 .Select(ea => new ExamViewModel
@@ -60,6 +60,8 @@ namespace CryptoMVC.Controllers
 
             var fileData = System.IO.File.ReadAllBytes(examFilePath);
             var plainTextAsBytes = _geneticCipherService.Decrypt(fileData, descryptionKey);
+            var timeSpan = examAssignment.Exam.EndTime - DateTime.Now;
+            ViewBag.RemainingMinutes = (int) timeSpan.TotalMinutes;
             var viewModel = new ExamAssignmentDetailViewModel
             {
                 Content = Encoding.UTF8.GetString(plainTextAsBytes),

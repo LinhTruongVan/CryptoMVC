@@ -17,7 +17,9 @@ namespace CryptoMVC.Controllers
         private readonly CryptoHelper _cryptoHelper = new CryptoHelper();
         public ActionResult Index()
         {
-            var exams = _context.Exams.Include(e=>e.ApplicationUser).OrderByDescending(e=>e.UploadedDate).ToList();
+            var exams = _context.Exams.Include(e=>e.ApplicationUser)
+                .OrderByDescending(e=>e.UploadedDate)
+                .ToList();
             return View(exams);
         }
 

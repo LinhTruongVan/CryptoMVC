@@ -14,7 +14,8 @@ namespace CryptoMVC.Controllers
             string adminId = User.Identity.GetUserId();
             var viewModel = new UserManagementViewModel
             {
-                Users = _context.Users.Where(u=>u.Id != adminId).Select(u => new UserViewModel
+                Users = _context.Users.Where(u=>u.Id != adminId)
+                .Select(u => new UserViewModel
                 {
                     Id = u.Id,
                     Name = u.UserName
@@ -31,8 +32,8 @@ namespace CryptoMVC.Controllers
             {
                 return RedirectToAction("Index");
             }
-            //var examAssignments = _context.ExamAssignments.Where(ea => ea.StudentId == user.Id).ToList();
-            //_context.ExamAssignments.RemoveRange(examAssignments);
+            var examAssignments = _context.ExamAssignments.Where(ea => ea.ApplicationUserId == user.Id).ToList();
+            _context.ExamAssignments.RemoveRange(examAssignments);
             _context.Users.Remove(user);
 
             _context.SaveChanges();
