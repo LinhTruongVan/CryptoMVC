@@ -166,5 +166,22 @@ namespace CryptoMVC.Services
                     return DocumentType.General;
             }
         }
+
+        public static DocumentType GetAnswerTypeFromExamType(DocumentType examType)
+        {
+            switch (examType)
+            {
+                case DocumentType.GradeSixExam:
+                    return DocumentType.GradeSixAnswer;
+                case DocumentType.GradeSevenExam:
+                    return DocumentType.GradeSevenAnswer;
+                case DocumentType.GradeEightExam:
+                    return DocumentType.GradeEightAnswer;
+                case DocumentType.GradeNineExam:
+                    return DocumentType.GradeNineAnswer;
+                default:
+                    return DocumentType.GradeSixAnswer;
+            }
+        }
     }
 }

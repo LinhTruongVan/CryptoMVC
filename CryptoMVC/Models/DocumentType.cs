@@ -12,6 +12,11 @@
         GradeSixExam,
         GradeSevenExam,
         GradeEightExam,
-        GradeNineExam
+        GradeNineExam,
+
+        GradeSixAnswer,
+        GradeSevenAnswer,
+        GradeEightAnswer,
+        GradeNineAnswer
     }
 }

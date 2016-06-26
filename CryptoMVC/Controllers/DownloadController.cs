@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using CryptoMVC.Services;
 
 namespace CryptoMVC.Controllers
 {
@@ -12,6 +13,8 @@ namespace CryptoMVC.Controllers
     public class DownloadController : Controller
     {
         private readonly ApplicationDbContext _context = new ApplicationDbContext();
+        private readonly GeneticCipherService _geneticCipherService = new GeneticCipherService();
+        private readonly CryptoHelper _cryptoHelper = new CryptoHelper();
         public ActionResult Index()
         {
             var downloadViewModel = new DownloadViewModel();
@@ -46,15 +49,17 @@ namespace CryptoMVC.Controllers
             }
             return View(downloadViewModel);
         }
-        [Authorize(Roles = RoleName.Admin)]
         public FileResult DownloadFile(string filePath, string fileName)
         {
-            if (!System.IO.File.Exists(filePath)) throw new Exception();
-
+            if (!System.IO.File.Exists(filePath))
+            {
+                throw new Exception("Document not found.");
+            }
             var fileBytes = System.IO.File.ReadAllBytes(filePath);
             return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
         }
 
+        [Authorize(Roles = RoleName.Admin)]
         [HttpPost]
         public ActionResult DeleteFile(int fileId)
         {
@@ -62,18 +67,37 @@ namespace CryptoMVC.Controllers
             if (deletedDocument != null)
             {
                 var filePath = Path.Combine(Server.MapPath("~/Documents"), deletedDocument.Id + Path.GetExtension(deletedDocument.Name));
-                var relatedExamAssignments = _context.ExamAssignments.Where(ea=>ea.DocumentId == fileId).ToList();
-
                 if (System.IO.File.Exists(filePath))
                 {
                     System.IO.File.Delete(filePath);
                 }
-
-                _context.ExamAssignments.RemoveRange(relatedExamAssignments);
                 _context.Documents.Remove(deletedDocument);
                 _context.SaveChanges();
             }
             return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = RoleName.Admin)]
+        [HttpPost]
+        public FileResult DecryptFile(int fileId)
+        {
+            var document = _context.Documents.FirstOrDefault(d => d.Id == fileId);
+            if (document != null)
+            {
+                var filePath = Path.Combine(Server.MapPath("~/Documents"),
+                    document.Id + Path.GetExtension(document.Name));
+                if (!System.IO.File.Exists(filePath))
+                {
+                    throw new Exception("Document not found.");
+                }
+                var fileBytes = _geneticCipherService.Decrypt(System.IO.File.ReadAllBytes(filePath),
+                    _cryptoHelper.Decrypt(document.Key));
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, document.Name);
+            }
+            else
+            {
+                throw new Exception("Document not found.");
+            }
         }
 
         private IEnumerable<DocumentViewModel> GetSuitableDocumentsForUser(IEnumerable<DocumentType> documentTypes)

@@ -18,6 +18,7 @@
                     @if (User != null && User.IsInRole("Admin"))
                     {
                         <th>...</th>
+                        <th>...</th>
                     }
                 </tr>
                 </thead>
@@ -34,9 +35,15 @@
                         @if (User != null && User.IsInRole("Admin"))
                         {
                             <td>
-                                @using(Html.BeginForm("DeleteFile", "Download", new { fileId = @document.Id }, FormMethod.Post))
+                                @using (Html.BeginForm("DecryptFile", "Download", new { fileId = @document.Id }, FormMethod.Post))
                                 {
-                                <button type="submit" class="btn btn-danger">Delete</button>
+                                    <button type="submit" class="btn btn-primary">Decrypt</button>
+                                }
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("DeleteFile", "Download", new { fileId = @document.Id }, FormMethod.Post))
+                                {
+                                    <button type="submit" class="btn btn-danger">Delete</button>
                                 }
                             </td>
                         }
