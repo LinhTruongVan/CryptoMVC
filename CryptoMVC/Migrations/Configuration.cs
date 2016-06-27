@@ -54,6 +54,10 @@ namespace CryptoMVC.Migrations
             var defaultStudent = new ApplicationUser { UserName = "student", Email = "student@cryptomvc.com" };
             var defaultStudent2 = new ApplicationUser { UserName = "student2", Email = "student2@cryptomvc.com" };
 
+            var gradeSevenStudent = new ApplicationUser { UserName = "gradeseven", Email = "gradeseven@cryptomvc.com" };
+            var gradeEightStudent = new ApplicationUser { UserName = "gradeeight", Email = "gradeseight@cryptomvc.com" };
+            var gradeNineStudent = new ApplicationUser { UserName = "gradenine", Email = "gradesnine@cryptomvc.com" };
+
             userManager.Create(userAdmin, "Aa123!@#");
             userManager.AddToRoles(userAdmin.Id, RoleName.Admin);
 
@@ -65,6 +69,15 @@ namespace CryptoMVC.Migrations
 
             userManager.Create(defaultStudent2, "Aa123!@#");
             userManager.AddToRoles(defaultStudent2.Id, RoleName.Student, RoleName.GradeSixStudent);
+
+            userManager.Create(gradeSevenStudent, "Aa123!@#");
+            userManager.AddToRoles(gradeSevenStudent.Id, RoleName.Student, RoleName.GradeSevenStudent);
+
+            userManager.Create(gradeEightStudent, "Aa123!@#");
+            userManager.AddToRoles(gradeEightStudent.Id, RoleName.Student, RoleName.GradeEightStudent);
+
+            userManager.Create(gradeNineStudent, "Aa123!@#");
+            userManager.AddToRoles(gradeNineStudent.Id, RoleName.Student, RoleName.GradeNineStudent);
 
             context.SaveChanges();
         }
