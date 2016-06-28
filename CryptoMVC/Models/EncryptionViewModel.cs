@@ -16,10 +16,6 @@ namespace CryptoMVC.Models
         public string Key { get; set; }
         [DisplayName("Type")]
         public DocumentType SelectedDocumentType { get; set; }
-        [DisplayName("Cipher Text")]
-        [DefaultValue("")]
-        public string CipherText { get; set; }
-
         public List<SelectListItem> DocumentTypes(IPrincipal userPrincipal)
         {
             if (userPrincipal.IsInRole(RoleName.Admin) || userPrincipal.IsInRole(RoleName.Teacher))

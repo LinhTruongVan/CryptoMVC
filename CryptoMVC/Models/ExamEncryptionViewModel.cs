@@ -23,9 +23,6 @@ namespace CryptoMVC.Models
         [Required]
         [DisplayName("End Time")]
         public DateTime EndTime { get; set; }
-        [DisplayName("Cipher Text")]
-        [DefaultValue("")]
-        public string CipherText { get; set; }
         [DefaultValue(null)]
         public string DateTimeErrorMessage { get; set; }
 

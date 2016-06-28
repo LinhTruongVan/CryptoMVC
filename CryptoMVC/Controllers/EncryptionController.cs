@@ -16,6 +16,7 @@ namespace CryptoMVC.Controllers
         private readonly CryptoHelper _cryptoHelper = new CryptoHelper();
         public ActionResult Index()
         {
+            ViewBag.CipherText = "";
             return View("Index", new EncryptionViewModel());
         }
 
@@ -44,7 +45,7 @@ namespace CryptoMVC.Controllers
                 var fileData = binaryReader.ReadBytes(viewModel.File.ContentLength);
                 var encryptedFileData = _geneticCipherService.Encrypt(fileData, viewModel.Key);
                 System.IO.File.WriteAllBytes(filePath, encryptedFileData);
-                viewModel.CipherText = System.Text.Encoding.UTF8.GetString(encryptedFileData);
+                ViewBag.CipherText = System.Text.Encoding.UTF8.GetString(encryptedFileData);
             }
 
             ModelState.Clear();

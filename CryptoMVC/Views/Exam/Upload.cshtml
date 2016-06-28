@@ -69,9 +69,11 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.CipherText, new { @class = "col-md-2 control-label" })
+                    <label class="col-md-2 control-label">Cipher Text</label>
                     <div class="col-md-10">
-                        @Html.TextArea("CipherText", Model.CipherText, new { @class = "form-control max-width-100", @readonly = "readonly", @rows = 8 })
+                        <textarea class="form-control max-width-100" cols="20" id="CipherText" name="CipherText" readonly="readonly" rows="8">
+                            @ViewBag.CipherText
+                        </textarea>
                     </div>
                 </div>
             }

@@ -25,6 +25,7 @@ namespace CryptoMVC.Controllers
 
         public ActionResult Upload()
         {
+            ViewBag.CipherText = "";
             return View(new ExamEncryptionViewModel());
         }
 
@@ -62,7 +63,7 @@ namespace CryptoMVC.Controllers
                 var fileData = binaryReader.ReadBytes(viewModel.File.ContentLength);
                 var encryptedFileData = _geneticCipherService.Encrypt(fileData, viewModel.Key);
                 System.IO.File.WriteAllBytes(filePath, encryptedFileData);
-                viewModel.CipherText = System.Text.Encoding.UTF8.GetString(encryptedFileData);
+                ViewBag.CipherText = System.Text.Encoding.UTF8.GetString(encryptedFileData);
             }
 
             var specialRoleName = DocumentTypeService.GetRoleAccessDocument(viewModel.SelectedExamType);
